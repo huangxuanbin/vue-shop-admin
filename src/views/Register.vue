@@ -126,7 +126,7 @@ export default {
                     sessionStorage.uid = data.id;
                     sessionStorage.role = data.role;
                     this.$message.success(msg);
-                    this.$router.push('/user/info');
+                    this.$router.push('/goods/list');
                 } else {
                     this.$message.error(msg);
                 }
