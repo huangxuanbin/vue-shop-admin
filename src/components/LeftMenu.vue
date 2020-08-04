@@ -1,5 +1,5 @@
 <template>
-    <el-menu router :collapse="collapse" background-color="#334e66" text-color="#fff" active-text-color="#ffd04b"
+    <el-menu router :collapse="isCollapse" background-color="#334e66" text-color="#fff" active-text-color="#ffd04b"
         class="left-menu">
         <el-submenu v-for="(item,index) in menuData" :key="item.id" :index="index+''">
             <template slot="title">
@@ -14,15 +14,18 @@
 
 <script>
 import { Menu } from '@/api/index';
+import { mapState } from 'vuex';
 export default {
     created() {
         this.loadMenu();
     },
-    props: ['collapse'],
     data() {
         return {
             menuData: [],
         }
+    },
+    computed: {
+        ...mapState('Menu', ['isCollapse'])
     },
     methods: {
         async loadMenu() {
@@ -38,6 +41,7 @@ export default {
 </script>
 <style lang="less" scope>
 .left-menu {
+    width: 200px;
     color: white;
     height: calc(100vh - 60px);
 

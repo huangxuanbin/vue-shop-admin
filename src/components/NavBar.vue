@@ -2,7 +2,7 @@
     <div class="navbar">
         <div class="nav-left">
             <img src="../assets/images/logo.png" alt />
-            <i class="el-icon-s-fold" @click="$emit('collapse')"></i>
+            <i class="el-icon-s-fold" @click="handleIcon"></i>
         </div>
         <div class="nav-right">
             <el-menu class="el-menu-demo" mode="horizontal" background-color="#545c64" text-color="#fff"
@@ -13,7 +13,9 @@
                         <span style="margin-left:15px">{{username}}</span>
                     </template>
                     <el-menu-item>消息</el-menu-item>
-                    <el-menu-item>设置</el-menu-item>
+                    <router-link to="/user/info">
+                        <el-menu-item>设置</el-menu-item>
+                    </router-link>
                     <el-menu-item @click="logout">退出</el-menu-item>
                 </el-submenu>
             </el-menu>
@@ -24,27 +26,19 @@
 <script>
 import { User } from '@/api/index';
 import axios from 'axios';
+import { mapState } from 'vuex';
 export default {
     created() {
-        // 拿到个人id
-        let id = sessionStorage.uid;
-        if (id) {
-            this.loadInfo(id);
-        }
+        this.$store.dispatch('UserData/loadProfile');
+
     },
-    data() {
-        return {
-            username: '',
-            circleUrl: ""
-        }
+    computed: {
+        ...mapState('UserData', { username: (state) => state.profile.username }),
+        ...mapState('UserData', { circleUrl: (state) => state.profile.avatar }),
     },
     methods: {
-        async loadInfo(id) {
-            let { data, status } = await User.info({ id });
-            if (status) {
-                this.username = data.username;
-                this.circleUrl = data.avatar;
-            }
+        handleIcon() {
+            this.$store.commit('Menu/clickIcon');
         },
         // 退出登录
         logout() {

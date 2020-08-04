@@ -46,8 +46,8 @@ export default {
         document.title = "账户信息";
         let id = sessionStorage.uid;
         if (id) {
+            this.form = {...this.$store.state.UserData.profile};
             this.options = await this.loadRoleList();
-            this.form = await this.loadInfo(id);
         }
     },
     data() {
@@ -86,12 +86,6 @@ export default {
         }
     },
     methods: {
-        async loadInfo(id) {
-            let { status, data } = await User.info({ id });
-            if (status) {
-                return data;
-            }
-        },
         async loadRoleList() {
             let { status, data } = await Role.list();
             if (status) {
@@ -104,6 +98,7 @@ export default {
                 let { status, msg } = await User.edit({ ...this.form });
                 if (status) {
                     this.$message.success(msg);
+                    this.$store.commit('UserData/editProfile',{...this.form});
                     this.$router.push('/user/list');
                 } else {
                     this.$message.error(msg);

@@ -1,12 +1,12 @@
 <template>
     <el-container>
         <el-header>
-            <NavBar @collapse="isCollapse = !isCollapse"></NavBar>
+            <NavBar></NavBar>
         </el-header>
         <el-container>
-            <div>
-                <LeftMenu :collapse="isCollapse"></LeftMenu>
-            </div>
+            <el-aside width="auto">
+                <LeftMenu></LeftMenu>
+            </el-aside>
             <el-main>
                 <router-view></router-view>
             </el-main>
@@ -20,11 +20,6 @@ export default {
     components: {
         NavBar,
         LeftMenu
-    },
-    data() {
-        return {
-            isCollapse:false,
-        }
     },
 };
 </script>

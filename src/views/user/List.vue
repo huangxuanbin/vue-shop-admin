@@ -146,6 +146,9 @@ export default {
                 if (status) {
                     this.editModalShow = false;
                     this.$message.success(msg);
+                    if (this.$store.state.UserData.profile.id == this.form.id) {
+                        this.$store.commit('UserData/editProfile', { ...this.form });
+                    }
                     this.loadList();
                 }
             })
